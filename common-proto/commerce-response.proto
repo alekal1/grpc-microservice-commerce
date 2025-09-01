@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ee.aleksale.common.proto.v1";
+
+import 'google/protobuf/any.proto';
+
+message InventoryUnit {
+  string name = 1;
+  InventoryType type = 2;
+  double price = 3;
+  int64 quantity = 4;
+
+  enum InventoryType {
+    HARDWARE = 0;
+    PACKAGING = 1;
+    DIY = 2;
+  }
+}
+
+message Client {
+  string name = 1;
+  string identifierCode = 2;
+}
+
+message CommerceResponse {
+  oneof commerceResponse {
+    SuccessResponse success = 1;
+    ErrorResponse error = 2;
+  }
+}
+
+message SuccessResponse {
+  repeated google.protobuf.Any data = 1;
+  string message = 2;
+}
+
+message ErrorResponse {
+  int32 code = 1;
+  string message = 2;
+}

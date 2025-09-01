@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ee.aleksale.client.proto.v1";
+
+import "commerce-response.proto";
+
+service ClientService {
+  rpc registerClient(Client) returns (CommerceResponse);
+}

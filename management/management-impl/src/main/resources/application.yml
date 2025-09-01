@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: "management"
+  grpc:
+    server:
+      port: 9090
+    client:
+      channels:
+        inventory:
+          address: 0.0.0.0:9091
+        client:
+          address: 0.0.0.0:9092

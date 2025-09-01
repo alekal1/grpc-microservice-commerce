@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ee.aleksale.management.proto.v1";
+
+import "commerce-response.proto";
+
+service InventoryManagement {
+  rpc addInventoryUnit(stream InventoryUnit) returns (stream CommerceResponse);
+  rpc removeInventoryUnit(stream InventoryUnit) returns (stream CommerceResponse);
+}
+
+service ClientManagement {
+  rpc registerClient(Client) returns (CommerceResponse);
+}

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "client"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/clientdb?currentSchema=client
+    username: client
+    password: client
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 2
+
+  liquibase:
+    default-schema: liquidbase
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.xml
+  grpc:
+    server:
+      port: 9092

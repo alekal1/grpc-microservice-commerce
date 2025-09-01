@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "inventory"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventorydb?currentSchema=inventory
+    username: inventory
+    password: inventory
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 2
+
+  liquibase:
+    default-schema: liquidbase
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.xml
+  grpc:
+    server:
+      port: 9091
