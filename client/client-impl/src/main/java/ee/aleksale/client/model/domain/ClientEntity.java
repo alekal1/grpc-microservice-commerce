@@ -24,4 +24,7 @@ public class ClientEntity {
 
     @Column(name = "identifier_code")
     private UUID identifierCode;
+
+    @Column(name = "money")
+    private Double money;
 }

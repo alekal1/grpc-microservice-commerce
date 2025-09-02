@@ -3,7 +3,7 @@ spring:
     name: "inventory"
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/inventorydb?currentSchema=inventory
+    url: jdbc:postgresql://localhost:54322/inventorydb?currentSchema=inventory
     username: inventory
     password: inventory
     driver-class-name: org.postgresql.Driver

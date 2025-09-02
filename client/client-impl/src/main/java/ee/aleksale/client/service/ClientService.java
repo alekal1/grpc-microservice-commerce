@@ -21,12 +21,14 @@ public class ClientService {
 
         entity.setName(client.getName());
         entity.setIdentifierCode(UUID.randomUUID());
+        entity.setMoney(client.getMoney());
 
         var savedEntity = clientRepository.saveAndFlush(entity);
 
         return Client.newBuilder()
                 .setName(savedEntity.getName())
                 .setIdentifierCode(savedEntity.getIdentifierCode().toString())
+                .setMoney(savedEntity.getMoney())
                 .build();
     }
 }

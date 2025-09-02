@@ -21,6 +21,7 @@ message InventoryUnit {
 message Client {
   string name = 1;
   string identifierCode = 2;
+  double money = 3;
 }
 
 message CommerceResponse {
