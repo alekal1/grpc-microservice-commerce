@@ -1,0 +1,93 @@
+version: "3.9"
+
+name: grpc-microservice-commerce
+
+networks:
+  app-net:
+    driver: bridge
+
+x-postgres-healthcheck: &postgres-healthcheck
+  test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+  interval: 5s
+  timeout: 5s
+  retries: 20
+  start_period: 10s
+
+services:
+  postgres-client:
+    image: postgres:latest
+    container_name: client-db
+    environment:
+      POSTGRES_DB: clientdb
+      POSTGRES_USER: client
+      POSTGRES_PASSWORD: client
+    healthcheck: *postgres-healthcheck
+    ports:
+      - "54321:5432"
+    networks:
+      app-net:
+    volumes:
+      - ./client/client-impl/src/main/resources/db/dev:/docker-entrypoint-initdb.d
+
+  postgres-inventory:
+    image: postgres:latest
+    container_name: inventory-db
+    environment:
+      POSTGRES_DB: inventorydb
+      POSTGRES_USER: inventory
+      POSTGRES_PASSWORD: inventory
+    healthcheck: *postgres-healthcheck
+    ports:
+      - "54322:5432"
+    networks:
+      - app-net
+    volumes:
+      - ./inventory/inventory-impl/src/main/resources/db/dev:/docker-entrypoint-initdb.d
+
+  management-service:
+    build:
+      context: ./management
+      dockerfile: Dockerfile
+    container_name: management-service
+    environment:
+      SPRING_GRPC_CLIENT_CHANNELS_INVENTORY_ADDRESS: inventory-service:9091
+      SPRING_GRPC_CLIENT_CHANNELS_CLIENT_ADDRESS: client-service:9092
+    ports:
+      - "9090:9090"
+    networks:
+      - app-net
+
+  inventory-service:
+    build:
+      context: ./inventory
+      dockerfile: Dockerfile
+    container_name: inventory-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-inventory:5432/inventorydb
+      SPRING_DATASOURCE_USERNAME: inventory
+      SPRING_DATASOURCE_PASSWORD: inventory
+    ports:
+      - "9091:9091"
+    depends_on:
+      postgres-inventory:
+        condition: service_healthy
+    networks:
+      - app-net
+
+  client-service:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-client:5432/clientdb
+      SPRING_DATASOURCE_USERNAME: client
+      SPRING_DATASOURCE_PASSWORD: client
+    ports:
+      - "9092:9092"
+    depends_on:
+      postgres-client:
+        condition: service_healthy
+    networks:
+      - app-net
+
