@@ -4,6 +4,7 @@ import ee.aleksale.common.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
 import ee.aleksale.inventory.repository.InventoryRepository;
+import ee.aleksale.inventory.service.validator.InventoryValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,6 +26,7 @@ import static org.mockito.Mockito.verify;
 class InventoryServiceTest {
 
     private InventoryRepository inventoryRepository;
+    private InventoryValidator inventoryValidator;
 
     private InventoryService inventoryService;
 
@@ -32,19 +35,25 @@ class InventoryServiceTest {
     @BeforeEach
     void init() {
         inventoryRepository = mock(InventoryRepository.class);
+        inventoryValidator = mock(InventoryValidator.class);
 
-        inventoryService = new InventoryService(inventoryRepository);
+        inventoryService = new InventoryService(inventoryRepository, inventoryValidator);
 
         inventoryEntityArgumentCaptor = ArgumentCaptor.forClass(InventoryEntity.class);
     }
 
     @Test
     void saveInventory() {
-        var request = InventoryUnit.getDefaultInstance();
+        var request = InventoryUnit.newBuilder()
+                .setName("anyName")
+                .setType(InventoryUnit.InventoryType.HARDWARE)
+                .setPrice(1.0)
+                .setQuantity(1L)
+                .build();
         var inventoryUnitEntity = new InventoryEntity();
         inventoryUnitEntity.setName("anyName");
         inventoryUnitEntity.setInventoryType(InventoryUnit.InventoryType.HARDWARE);
-        inventoryUnitEntity.setPrice(0.0);
+        inventoryUnitEntity.setPrice(1.0);
         inventoryUnitEntity.setQuantity(1L);
 
         doReturn(inventoryUnitEntity)
@@ -63,32 +72,17 @@ class InventoryServiceTest {
     }
 
     @Test
-    void removeInventory_notFound() {
+    void removeInventory_validationError() {
         var request = InventoryUnit.getDefaultInstance();
+        var optionalEntity = Optional.of(new InventoryEntity());
 
-        doReturn(Optional.empty())
+        doReturn(optionalEntity)
                 .when(inventoryRepository)
                 .findByNameAndInventoryType(request.getName(), request.getType());
 
-        assertThrows(InventoryException.class, () -> {
-            inventoryService.removeInventory(request);
-        });
-    }
-
-    @Test
-    void removeInventory_invalidQuantity() {
-        var request = InventoryUnit.newBuilder()
-                .setName("anyName")
-                .setType(InventoryUnit.InventoryType.HARDWARE)
-                .setQuantity(2)
-                .build();
-
-        var entity = new InventoryEntity();
-        entity.setQuantity(request.getQuantity() - 1);
-
-        doReturn(Optional.of(entity))
-                .when(inventoryRepository)
-                .findByNameAndInventoryType(request.getName(), request.getType());
+        doThrow(InventoryException.class)
+                .when(inventoryValidator)
+                .validateRemoveInventory(optionalEntity, request);
 
         assertThrows(InventoryException.class, () -> {
             inventoryService.removeInventory(request);

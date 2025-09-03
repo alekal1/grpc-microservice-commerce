@@ -35,6 +35,10 @@ public class ClientService {
 
     @Transactional
     public Client addMoney(String identificationCode, double money) {
+        if (money < 0) {
+            throw new ClientException("Money cannot be less than zero");
+        }
+
         var entity = clientRepository.findByIdentifierCode(UUID.fromString(identificationCode))
                 .orElseThrow(() -> new ClientException("Client not found!"));
 

@@ -23,16 +23,6 @@ public class ClientGrpcService extends ClientServiceGrpc.ClientServiceImplBase {
     @Override
     public void addMoney(Client request, StreamObserver<CommerceResponse> responseObserver) {
 
-        if (request.getMoney() < 0) {
-            responseObserver.onNext(CommerceResponse.newBuilder()
-                    .setError(ErrorResponse.newBuilder()
-                            .setCode(400)
-                            .setMessage("Money cannot be less than zero")
-                            .build())
-                    .build());
-            responseObserver.onCompleted();
-        }
-
         try {
             var client = clientService.addMoney(IdentificationHeaderInterceptor.ID_CONTEXT_KEY.get(), request.getMoney());
 

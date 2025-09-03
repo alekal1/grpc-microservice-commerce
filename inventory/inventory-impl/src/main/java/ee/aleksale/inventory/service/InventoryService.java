@@ -4,6 +4,7 @@ import ee.aleksale.common.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
 import ee.aleksale.inventory.repository.InventoryRepository;
+import ee.aleksale.inventory.service.validator.InventoryValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryValidator inventoryValidator;
 
     @Transactional
-    public InventoryUnit saveInventory(InventoryUnit unit) {
-        //TODO: Mapstruct
+    public InventoryUnit saveInventory(InventoryUnit unit) throws InventoryException {
+        inventoryValidator.validateAddInventory(unit);
+
         var entity = new InventoryEntity();
         entity.setName(unit.getName());
         entity.setInventoryType(unit.getType());
@@ -34,19 +37,18 @@ public class InventoryService {
     }
 
     @Transactional
-    public void removeInventory(InventoryUnit unit) {
-        var entity = inventoryRepository.findByNameAndInventoryType(unit.getName(), unit.getType())
-                .orElseThrow(() -> new InventoryException("Inventory unit not found."));
+    public void removeInventory(InventoryUnit unit) throws InventoryException {
+        var entityOptional = inventoryRepository.findByNameAndInventoryType(unit.getName(), unit.getType());
+        inventoryValidator.validateRemoveInventory(entityOptional, unit);
 
-        if (entity.getQuantity() < unit.getQuantity()) {
-            throw new InventoryException("Cannot delete more than have.");
-        }
+        var entity = entityOptional.get();
 
         if (entity.getQuantity() - unit.getQuantity() == 0) {
             inventoryRepository.deleteById(entity.getId());
             return;
         }
 
-        inventoryRepository.updateQuantity(entity.getId(), entity.getQuantity() - unit.getQuantity());
+        inventoryRepository.updateQuantity(entity.getId(),
+                entity.getQuantity() - unit.getQuantity());
     }
 }
