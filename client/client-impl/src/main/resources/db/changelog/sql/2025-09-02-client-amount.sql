@@ -1,2 +1,2 @@
 ALTER TABLE client.client
-ADD money numeric;
+ADD money numeric DEFAULT 0;

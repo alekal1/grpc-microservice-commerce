@@ -1,10 +1,12 @@
 package ee.aleksale.client.service.grpc;
 
 import com.google.protobuf.Any;
+import ee.aleksale.client.interceptors.IdentificationHeaderInterceptor;
 import ee.aleksale.client.proto.v1.ClientServiceGrpc;
 import ee.aleksale.client.service.ClientService;
 import ee.aleksale.common.proto.v1.Client;
 import ee.aleksale.common.proto.v1.CommerceResponse;
+import ee.aleksale.common.proto.v1.ErrorResponse;
 import ee.aleksale.common.proto.v1.SuccessResponse;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -12,24 +14,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService
+@GrpcService(interceptors = IdentificationHeaderInterceptor.class)
 @RequiredArgsConstructor
 public class ClientGrpcService extends ClientServiceGrpc.ClientServiceImplBase {
 
     private final ClientService clientService;
 
     @Override
-    public void registerClient(Client request, StreamObserver<CommerceResponse> responseObserver) {
-        log.info("registerClient - onNext");
+    public void addMoney(Client request, StreamObserver<CommerceResponse> responseObserver) {
 
-        var response = clientService.saveClient(request);
+        if (request.getMoney() < 0) {
+            responseObserver.onNext(CommerceResponse.newBuilder()
+                    .setError(ErrorResponse.newBuilder()
+                            .setCode(400)
+                            .setMessage("Money cannot be less than zero")
+                            .build())
+                    .build());
+            responseObserver.onCompleted();
+        }
 
-        responseObserver.onNext(CommerceResponse.newBuilder()
-                .setSuccess(SuccessResponse.newBuilder()
-                        .addData(Any.pack(response))
-                        .setMessage("Registered! Do not forget your identifierCode!")
-                        .build())
-                .build());
+        try {
+            var client = clientService.addMoney(IdentificationHeaderInterceptor.ID_CONTEXT_KEY.get(), request.getMoney());
+
+            responseObserver.onNext(CommerceResponse.newBuilder()
+                    .setSuccess(SuccessResponse.newBuilder()
+                            .addData(Any.pack(client))
+                            .setMessage("Money added.")
+                            .build())
+                    .build());
+        } catch (Exception e) {
+            responseObserver.onNext(CommerceResponse.newBuilder()
+                    .setError(ErrorResponse.newBuilder()
+                            .setCode(500)
+                            .setMessage(e.getMessage())
+                            .build())
+                    .build());
+        }
         responseObserver.onCompleted();
     }
 }

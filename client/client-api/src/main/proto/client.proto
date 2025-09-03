@@ -5,6 +5,10 @@ option java_package = "ee.aleksale.client.proto.v1";
 
 import "commerce-response.proto";
 
-service ClientService {
+service ClientRegistrationService {
   rpc registerClient(Client) returns (CommerceResponse);
+}
+
+service ClientService {
+  rpc addMoney(Client) returns (CommerceResponse);
 }

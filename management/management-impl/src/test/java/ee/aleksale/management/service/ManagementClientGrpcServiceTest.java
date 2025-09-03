@@ -1,6 +1,6 @@
 package ee.aleksale.management.service;
 
-import ee.aleksale.client.proto.v1.ClientServiceGrpc;
+import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
 import ee.aleksale.common.proto.v1.Client;
 import ee.aleksale.common.proto.v1.CommerceResponse;
 import io.grpc.internal.testing.StreamRecorder;
@@ -18,14 +18,14 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class ManagementClientGrpcServiceTest {
 
-    private ClientServiceGrpc.ClientServiceBlockingStub clientServiceBlockingStub;
+    private ClientRegistrationServiceGrpc.ClientRegistrationServiceBlockingStub clientRegistrationBlockingStub;
     private ManagementClientGrpcService managementClientGrpcService;
 
     @BeforeEach
     void init() {
-        clientServiceBlockingStub = mock(ClientServiceGrpc.ClientServiceBlockingStub.class);
+        clientRegistrationBlockingStub = mock(ClientRegistrationServiceGrpc.ClientRegistrationServiceBlockingStub.class);
 
-        managementClientGrpcService = new ManagementClientGrpcService(clientServiceBlockingStub);
+        managementClientGrpcService = new ManagementClientGrpcService(clientRegistrationBlockingStub);
     }
 
     @Test
@@ -34,7 +34,7 @@ class ManagementClientGrpcServiceTest {
         var response = CommerceResponse.getDefaultInstance();
 
         doReturn(response)
-                .when(clientServiceBlockingStub)
+                .when(clientRegistrationBlockingStub)
                 .registerClient(request);
 
         var responseObserver = StreamRecorder.<CommerceResponse>create();

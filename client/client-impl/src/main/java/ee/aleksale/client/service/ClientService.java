@@ -1,5 +1,6 @@
 package ee.aleksale.client.service;
 
+import ee.aleksale.client.exception.ClientException;
 import ee.aleksale.client.model.domain.ClientEntity;
 import ee.aleksale.client.repository.ClientRepository;
 import ee.aleksale.common.proto.v1.Client;
@@ -29,6 +30,20 @@ public class ClientService {
                 .setName(savedEntity.getName())
                 .setIdentifierCode(savedEntity.getIdentifierCode().toString())
                 .setMoney(savedEntity.getMoney())
+                .build();
+    }
+
+    @Transactional
+    public Client addMoney(String identificationCode, double money) {
+        var entity = clientRepository.findByIdentifierCode(UUID.fromString(identificationCode))
+                .orElseThrow(() -> new ClientException("Client not found!"));
+
+        clientRepository.updateMoney(entity.getId(), entity.getMoney() + money);
+
+        return Client.newBuilder()
+                .setName(entity.getName())
+                .setIdentifierCode(entity.getIdentifierCode().toString())
+                .setMoney(entity.getMoney() + money)
                 .build();
     }
 }

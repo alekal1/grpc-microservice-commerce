@@ -1,6 +1,8 @@
 package ee.aleksale.client.model.domain;
 
+import ee.aleksale.client.model.converter.UUIDConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class ClientEntity {
     @Column(name = "name")
     private String name;
 
+    @Convert(converter = UUIDConverter.class)
     @Column(name = "identifier_code")
     private UUID identifierCode;
 

@@ -1,6 +1,6 @@
 package ee.aleksale.management.client;
 
-import ee.aleksale.client.proto.v1.ClientServiceGrpc;
+import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
 import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class ManagementClientConfig {
     }
 
     @Bean
-    public ClientServiceGrpc.ClientServiceBlockingStub clientServiceBlockingStub(GrpcChannelFactory channels) {
-        return ClientServiceGrpc.newBlockingStub(channels.createChannel("client"));
+    public ClientRegistrationServiceGrpc.ClientRegistrationServiceBlockingStub clientManagementBlockingStub(GrpcChannelFactory channels) {
+        return ClientRegistrationServiceGrpc.newBlockingStub(channels.createChannel("client"));
     }
 }

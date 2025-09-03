@@ -1,6 +1,6 @@
 package ee.aleksale.management.service;
 
-import ee.aleksale.client.proto.v1.ClientServiceGrpc;
+import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
 import ee.aleksale.common.proto.v1.Client;
 import ee.aleksale.common.proto.v1.CommerceResponse;
 import ee.aleksale.management.proto.v1.ClientManagementGrpc;
@@ -14,11 +14,11 @@ import org.springframework.grpc.server.service.GrpcService;
 @RequiredArgsConstructor
 public class ManagementClientGrpcService extends ClientManagementGrpc.ClientManagementImplBase {
 
-    private final ClientServiceGrpc.ClientServiceBlockingStub clientServiceBlockingStub;
+    private final ClientRegistrationServiceGrpc.ClientRegistrationServiceBlockingStub clientRegistrationBlockingStub;
 
     @Override
     public void registerClient(Client request, StreamObserver<CommerceResponse> responseObserver) {
-        var response = clientServiceBlockingStub.registerClient(request);
+        var response = clientRegistrationBlockingStub.registerClient(request);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
