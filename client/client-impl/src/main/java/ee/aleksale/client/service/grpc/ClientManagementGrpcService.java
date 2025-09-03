@@ -1,6 +1,7 @@
 package ee.aleksale.client.service.grpc;
 
 import com.google.protobuf.Any;
+import ee.aleksale.client.interceptors.ManagementSecretInterceptor;
 import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
 import ee.aleksale.client.service.ClientService;
 import ee.aleksale.common.proto.v1.Client;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService
+@GrpcService(interceptors = ManagementSecretInterceptor.class)
 @RequiredArgsConstructor
 public class ClientManagementGrpcService extends ClientRegistrationServiceGrpc.ClientRegistrationServiceImplBase {
 

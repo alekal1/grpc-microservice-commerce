@@ -17,3 +17,6 @@ spring:
   grpc:
     server:
       port: 9092
+
+credentials:
+  management-system-secret: ${MANAGEMENT_SYSTEM_TOKEN}
