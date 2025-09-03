@@ -31,8 +31,8 @@ public class SecretCallCredentials extends CallCredentials {
                 );
                 headers.put(SYSTEM_KEY, encodedSecret);
                 applier.apply(headers);
-            } catch (Throwable t) {
-                applier.fail(Status.INVALID_ARGUMENT.withCause(t));
+            } catch (Exception ex) {
+                applier.fail(Status.INVALID_ARGUMENT.withCause(ex));
             }
         });
     }

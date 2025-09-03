@@ -6,6 +6,7 @@ import ee.aleksale.common.proto.v1.ErrorResponse;
 import ee.aleksale.common.proto.v1.InventoryUnit;
 import ee.aleksale.common.proto.v1.SuccessResponse;
 import ee.aleksale.inventory.exception.InventoryException;
+import ee.aleksale.inventory.interceptors.ManagementSecretInterceptor;
 import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
 import ee.aleksale.inventory.service.InventoryService;
 import io.grpc.stub.StreamObserver;
@@ -14,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService
+@GrpcService(interceptors = ManagementSecretInterceptor.class)
 @RequiredArgsConstructor
 public class InventoryGrpcService extends InventoryServiceGrpc.InventoryServiceImplBase {
 
