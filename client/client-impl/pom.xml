@@ -29,6 +29,12 @@
             <version>0.0.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>ee.aleksale</groupId>
+            <artifactId>order-api</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
         <!-- Spring Boot Starter Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

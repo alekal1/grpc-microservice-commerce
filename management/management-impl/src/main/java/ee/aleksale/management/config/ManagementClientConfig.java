@@ -1,4 +1,4 @@
-package ee.aleksale.management.client;
+package ee.aleksale.management.config;
 
 import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
 import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;

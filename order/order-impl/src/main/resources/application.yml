@@ -1,3 +1,10 @@
 spring:
   application:
-    name: order
+    name: "order"
+  grpc:
+    server:
+      port: 9093
+    client:
+      channels:
+        payment:
+          address: 0.0.0.0:9094

@@ -5,6 +5,7 @@ import ee.aleksale.client.interceptors.IdentificationHeaderInterceptor;
 import ee.aleksale.client.proto.v1.ClientServiceGrpc;
 import ee.aleksale.client.service.ClientService;
 import ee.aleksale.common.client.proto.v1.Client;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.response.proto.v1.ErrorResponse;
 import ee.aleksale.common.response.proto.v1.SuccessResponse;
@@ -41,5 +42,10 @@ public class ClientGrpcService extends ClientServiceGrpc.ClientServiceImplBase {
                     .build());
         }
         responseObserver.onCompleted();
+    }
+
+    @Override
+    public StreamObserver<InventoryUnit> makeOrder(StreamObserver<CommerceResponse> responseObserver) {
+        return super.makeOrder(responseObserver);
     }
 }

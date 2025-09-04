@@ -1,3 +1,6 @@
 spring:
   application:
-    name: payment
+    name: "payment"
+  grpc:
+    server:
+      port: 9094

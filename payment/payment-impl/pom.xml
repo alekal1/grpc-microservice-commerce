@@ -23,6 +23,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>ee.aleksale</groupId>
+            <artifactId>payment-api</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <!-- Spring GRPC -->
         <dependency>
             <groupId>org.springframework.grpc</groupId>
