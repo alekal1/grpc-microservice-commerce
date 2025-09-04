@@ -5,7 +5,7 @@ option java_package = "ee.aleksale.client.proto.v1";
 
 import "response-common.proto";
 import "client-common.proto";
-import "order-common.proto";
+import "inventory-common.proto";
 
 service ClientRegistrationService {
   rpc registerClient(Client) returns (CommerceResponse);
@@ -13,5 +13,5 @@ service ClientRegistrationService {
 
 service ClientService {
   rpc addMoney(Client) returns (CommerceResponse);
-  rpc makeOrder(stream Order) returns (CommerceResponse);
+  rpc makeOrder(stream InventoryUnit) returns (CommerceResponse);
 }

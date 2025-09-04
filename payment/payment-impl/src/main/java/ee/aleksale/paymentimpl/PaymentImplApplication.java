@@ -1,13 +1,13 @@
-package ee.aleksale.payment;
+package ee.aleksale.paymentimpl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PaymentApplication {
+public class PaymentImplApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PaymentApplication.class, args);
+        SpringApplication.run(PaymentImplApplication.class, args);
     }
 
 }

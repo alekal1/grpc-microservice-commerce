@@ -1,10 +1,10 @@
-package ee.aleksale.payment;
+package ee.aleksale.paymentimpl;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PaymentApplicationTests {
+class PaymentImplApplicationTests {
 
     @Test
     void contextLoads() {
