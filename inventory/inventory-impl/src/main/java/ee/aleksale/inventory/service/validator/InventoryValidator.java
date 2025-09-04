@@ -1,6 +1,6 @@
 package ee.aleksale.inventory.service.validator;
 
-import ee.aleksale.common.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
 import ee.aleksale.inventory.repository.InventoryRepository;

@@ -1,6 +1,6 @@
 package ee.aleksale.inventory.model.domain;
 
-import ee.aleksale.common.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

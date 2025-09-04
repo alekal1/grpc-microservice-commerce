@@ -1,7 +1,7 @@
 package ee.aleksale.management.service;
 
-import ee.aleksale.common.proto.v1.CommerceResponse;
-import ee.aleksale.common.proto.v1.InventoryUnit;
+import ee.aleksale.common.response.proto.v1.CommerceResponse;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
 import ee.aleksale.management.proto.v1.InventoryManagementGrpc;
 import io.grpc.stub.StreamObserver;

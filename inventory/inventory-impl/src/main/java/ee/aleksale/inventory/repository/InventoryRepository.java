@@ -1,6 +1,6 @@
 package ee.aleksale.inventory.repository;
 
-import ee.aleksale.common.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -1,8 +1,8 @@
 package ee.aleksale.management.service;
 
 import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
-import ee.aleksale.common.proto.v1.Client;
-import ee.aleksale.common.proto.v1.CommerceResponse;
+import ee.aleksale.common.client.proto.v1.Client;
+import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.management.proto.v1.ClientManagementGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;

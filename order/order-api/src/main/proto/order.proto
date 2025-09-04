@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ee.aleksale.inventory.proto.v1";
+
+import "response-common.proto";
+import "order-common.proto";
+
+service OrderService {
+  rpc makeOrder(stream Order) returns (CommerceResponse);
+}

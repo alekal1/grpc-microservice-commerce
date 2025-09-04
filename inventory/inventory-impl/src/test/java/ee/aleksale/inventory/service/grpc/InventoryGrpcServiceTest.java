@@ -1,7 +1,7 @@
 package ee.aleksale.inventory.service.grpc;
 
-import ee.aleksale.common.proto.v1.CommerceResponse;
-import ee.aleksale.common.proto.v1.InventoryUnit;
+import ee.aleksale.common.response.proto.v1.CommerceResponse;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.service.InventoryService;
 import io.grpc.internal.testing.StreamRecorder;

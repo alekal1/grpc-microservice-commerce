@@ -1,10 +1,10 @@
 package ee.aleksale.inventory.service.grpc;
 
 import com.google.protobuf.Any;
-import ee.aleksale.common.proto.v1.CommerceResponse;
-import ee.aleksale.common.proto.v1.ErrorResponse;
-import ee.aleksale.common.proto.v1.InventoryUnit;
-import ee.aleksale.common.proto.v1.SuccessResponse;
+import ee.aleksale.common.response.proto.v1.CommerceResponse;
+import ee.aleksale.common.response.proto.v1.ErrorResponse;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
+import ee.aleksale.common.response.proto.v1.SuccessResponse;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.interceptors.ManagementSecretInterceptor;
 import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;

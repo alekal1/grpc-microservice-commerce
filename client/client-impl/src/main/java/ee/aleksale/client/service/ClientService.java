@@ -3,7 +3,7 @@ package ee.aleksale.client.service;
 import ee.aleksale.client.exception.ClientException;
 import ee.aleksale.client.model.domain.ClientEntity;
 import ee.aleksale.client.repository.ClientRepository;
-import ee.aleksale.common.proto.v1.Client;
+import ee.aleksale.common.client.proto.v1.Client;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

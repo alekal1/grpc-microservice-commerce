@@ -1,4 +1,4 @@
-package ee.aleksale.order;
+package ee.aleksale.orderimpl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
