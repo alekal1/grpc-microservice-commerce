@@ -7,5 +7,5 @@ import "inventory-common.proto";
 
 message Payment {
   string identificationCode = 1;
-  repeated InventoryUnit inventoryUnits = 2;
+  repeated InventoryOrder inventoryOrders = 2;
 }

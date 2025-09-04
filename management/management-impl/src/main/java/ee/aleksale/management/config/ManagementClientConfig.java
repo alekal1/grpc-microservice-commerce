@@ -1,7 +1,7 @@
 package ee.aleksale.management.config;
 
 import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
-import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
+import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
 import ee.aleksale.management.credentials.SecretCallCredentials;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +11,10 @@ import org.springframework.grpc.client.GrpcChannelFactory;
 public class ManagementClientConfig {
 
     @Bean
-    public InventoryServiceGrpc.InventoryServiceStub inventoryServiceStub(
+    public InventoryManagementServiceGrpc.InventoryManagementServiceStub inventoryServiceStub(
             GrpcChannelFactory channels,
             SecretCallCredentials secretCallCredentials) {
-        return InventoryServiceGrpc.newStub(channels.createChannel("inventory"))
+        return InventoryManagementServiceGrpc.newStub(channels.createChannel("inventory"))
                 .withCallCredentials(secretCallCredentials);
     }
 

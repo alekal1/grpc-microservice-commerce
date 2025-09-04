@@ -7,5 +7,5 @@ import "response-common.proto";
 import "inventory-common.proto";
 
 service OrderService {
-  rpc makeOrder(stream InventoryUnit) returns (CommerceResponse);
+  rpc makeOrder(stream InventoryOrder) returns (CommerceResponse);
 }

@@ -7,7 +7,7 @@ import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.common.response.proto.v1.SuccessResponse;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.interceptors.ManagementSecretInterceptor;
-import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
+import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
 import ee.aleksale.inventory.service.InventoryService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ import org.springframework.grpc.server.service.GrpcService;
 @Slf4j
 @GrpcService(interceptors = ManagementSecretInterceptor.class)
 @RequiredArgsConstructor
-public class InventoryGrpcService extends InventoryServiceGrpc.InventoryServiceImplBase {
+public class InventoryManagementGrpcService extends InventoryManagementServiceGrpc.InventoryManagementServiceImplBase {
 
     private final InventoryService inventoryService;
 
     @Override
     public StreamObserver<InventoryUnit> addInventoryUnit(StreamObserver<CommerceResponse> responseObserver) {
-        return new StreamObserver<InventoryUnit>() {
+        return new StreamObserver<>() {
             @Override
             public void onNext(InventoryUnit unit) {
                 log.info("addInventoryUnit - onNext");
@@ -67,7 +67,7 @@ public class InventoryGrpcService extends InventoryServiceGrpc.InventoryServiceI
 
     @Override
     public StreamObserver<InventoryUnit> removeInventoryUnit(StreamObserver<CommerceResponse> responseObserver) {
-        return new StreamObserver<InventoryUnit>() {
+        return new StreamObserver<>() {
 
             @Override
             public void onNext(InventoryUnit unit) {

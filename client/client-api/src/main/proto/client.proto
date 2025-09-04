@@ -13,5 +13,5 @@ service ClientRegistrationService {
 
 service ClientService {
   rpc addMoney(Client) returns (CommerceResponse);
-  rpc makeOrder(stream InventoryUnit) returns (CommerceResponse);
+  rpc makeOrder(stream InventoryOrder) returns (CommerceResponse);
 }

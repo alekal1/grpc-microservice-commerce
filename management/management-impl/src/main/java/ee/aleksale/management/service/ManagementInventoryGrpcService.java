@@ -2,7 +2,7 @@ package ee.aleksale.management.service;
 
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
-import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
+import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
 import ee.aleksale.management.proto.v1.InventoryManagementGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +14,14 @@ import org.springframework.grpc.server.service.GrpcService;
 @RequiredArgsConstructor
 public class ManagementInventoryGrpcService extends InventoryManagementGrpc.InventoryManagementImplBase {
 
-    private final InventoryServiceGrpc.InventoryServiceStub inventoryServiceStub;
+    private final InventoryManagementServiceGrpc.InventoryManagementServiceStub inventoryServiceStub;
 
     @Override
     public StreamObserver<InventoryUnit> addInventoryUnit(StreamObserver<CommerceResponse> responseObserver) {
         var inventoryResponseObserver = getInventoryResponseObserver(responseObserver);
         var inventoryRequestObserver = inventoryServiceStub.addInventoryUnit(inventoryResponseObserver);
 
-        return new StreamObserver<InventoryUnit>() {
+        return new StreamObserver<>() {
             @Override
             public void onNext(InventoryUnit unit) {
                 log.info("addInventoryUnit - onNext");
@@ -47,7 +47,7 @@ public class ManagementInventoryGrpcService extends InventoryManagementGrpc.Inve
         var inventoryResponseObserver = getInventoryResponseObserver(responseObserver);
         var inventoryRequestObserver = inventoryServiceStub.removeInventoryUnit(inventoryResponseObserver);
 
-        return new StreamObserver<InventoryUnit>() {
+        return new StreamObserver<>() {
             @Override
             public void onNext(InventoryUnit unit) {
                 log.info("removeInventoryUnit - onNext");
@@ -70,7 +70,7 @@ public class ManagementInventoryGrpcService extends InventoryManagementGrpc.Inve
     }
 
     private StreamObserver<CommerceResponse> getInventoryResponseObserver(StreamObserver<CommerceResponse> responseObserver) {
-        return new StreamObserver<CommerceResponse>() {
+        return new StreamObserver<>() {
             @Override
             public void onNext(CommerceResponse commerceResponse) {
                 log.info("Response observer - onNext");

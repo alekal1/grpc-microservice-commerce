@@ -1,6 +1,6 @@
 package ee.aleksale.inventory.repository;
 
-import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface InventoryRepository extends JpaRepository<InventoryEntity, Long> {
 
-    Optional<InventoryEntity> findByNameAndInventoryType(String name, InventoryUnit.InventoryType inventoryType);
+    Optional<InventoryEntity> findByNameAndInventoryType(String name, InventoryType inventoryType);
 
     void deleteById(@NonNull Long id);
 

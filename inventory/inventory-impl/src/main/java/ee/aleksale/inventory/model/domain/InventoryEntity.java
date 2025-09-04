@@ -1,6 +1,6 @@
 package ee.aleksale.inventory.model.domain;
 
-import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +25,7 @@ public class InventoryEntity {
 
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
-    private InventoryUnit.InventoryType inventoryType;
+    private InventoryType inventoryType;
 
     @Column(name = "price")
     private Double price;

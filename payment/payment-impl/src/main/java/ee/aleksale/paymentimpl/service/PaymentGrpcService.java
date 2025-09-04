@@ -15,6 +15,7 @@ public class PaymentGrpcService extends PaymentServiceGrpc.PaymentServiceImplBas
 
     @Override
     public void processPayment(Payment request, StreamObserver<CommerceResponse> responseObserver) {
-        super.processPayment(request, responseObserver);
+        responseObserver.onNext(CommerceResponse.getDefaultInstance());
+        responseObserver.onCompleted();
     }
 }

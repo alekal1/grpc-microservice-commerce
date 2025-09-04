@@ -2,7 +2,7 @@ package ee.aleksale.management.service;
 
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
-import ee.aleksale.inventory.proto.v1.InventoryServiceGrpc;
+import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
 import io.grpc.internal.testing.StreamRecorder;
 import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,12 +27,12 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class ManagementInventoryGrpcServiceTest {
 
-    private InventoryServiceGrpc.InventoryServiceStub inventoryServiceStub;
+    private InventoryManagementServiceGrpc.InventoryManagementServiceStub inventoryServiceStub;
     private ManagementInventoryGrpcService managementInventoryGrpcService;
 
     @BeforeEach
     void init() {
-        inventoryServiceStub = mock(InventoryServiceGrpc.InventoryServiceStub.class);
+        inventoryServiceStub = mock(InventoryManagementServiceGrpc.InventoryManagementServiceStub.class);
 
         managementInventoryGrpcService = new ManagementInventoryGrpcService(
                 inventoryServiceStub

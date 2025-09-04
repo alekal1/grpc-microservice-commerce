@@ -8,10 +8,16 @@ message InventoryUnit {
   InventoryType type = 2;
   double price = 3;
   int64 quantity = 4;
+}
 
-  enum InventoryType {
-    HARDWARE = 0;
-    PACKAGING = 1;
-    DIY = 2;
-  }
+message InventoryOrder {
+  string name = 1;
+  InventoryType type = 2;
+  int64 quantity = 3;
+}
+
+enum InventoryType {
+  HARDWARE = 0;
+  PACKAGING = 1;
+  DIY = 2;
 }

@@ -1,5 +1,6 @@
 package ee.aleksale.inventory.service.validator;
 
+import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
@@ -47,16 +48,14 @@ class InventoryValidatorTest {
         var inventoryUnit = InventoryUnit.newBuilder()
                         .setPrice(price)
                         .build();
-        assertThrows(InventoryException.class, () -> {
-            inventoryValidator.validateAddInventory(inventoryUnit);
-        });
+        assertThrows(InventoryException.class, () -> inventoryValidator.validateAddInventory(inventoryUnit));
     }
 
     @Test
     void addInventory_alreadyExists() {
         var inventoryUnit = InventoryUnit.newBuilder()
                 .setName("anyName")
-                .setType(InventoryUnit.InventoryType.HARDWARE)
+                .setType(InventoryType.HARDWARE)
                 .setPrice(10L)
                 .build();
 
@@ -66,16 +65,12 @@ class InventoryValidatorTest {
                 .when(inventoryRepository)
                 .findByNameAndInventoryType(inventoryUnit.getName(), inventoryUnit.getType());
 
-        assertThrows(InventoryException.class, () -> {
-            inventoryValidator.validateAddInventory(inventoryUnit);
-        });
+        assertThrows(InventoryException.class, () -> inventoryValidator.validateAddInventory(inventoryUnit));
     }
 
     @Test
     void removeInventory_entityNotFound() {
-        assertThrows(InventoryException.class, () -> {
-            inventoryValidator.validateRemoveInventory(Optional.empty(), InventoryUnit.getDefaultInstance());
-        });
+        assertThrows(InventoryException.class, () -> inventoryValidator.validateRemoveInventory(Optional.empty(), InventoryUnit.getDefaultInstance()));
     }
 
     @Test
@@ -87,8 +82,6 @@ class InventoryValidatorTest {
                 .setQuantity(2L)
                 .build();
 
-        assertThrows(InventoryException.class, () -> {
-            inventoryValidator.validateRemoveInventory(Optional.of(entity), unit);
-        });
+        assertThrows(InventoryException.class, () -> inventoryValidator.validateRemoveInventory(Optional.of(entity), unit));
     }
 }

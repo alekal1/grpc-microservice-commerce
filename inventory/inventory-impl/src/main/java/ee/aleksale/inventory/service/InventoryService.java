@@ -1,5 +1,6 @@
 package ee.aleksale.inventory.service;
 
+import ee.aleksale.common.inventory.proto.v1.InventoryOrder;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
@@ -8,6 +9,8 @@ import ee.aleksale.inventory.service.validator.InventoryValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Nullable;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,24 @@ public class InventoryService {
                 .setPrice(savedEntity.getPrice())
                 .setQuantity(savedEntity.getQuantity())
                 .build();
+    }
+
+    public @Nullable InventoryUnit getInventory(InventoryOrder unit) throws InventoryException {
+        var entityOptional = inventoryRepository.findByNameAndInventoryType(unit.getName(), unit.getType());
+        if (entityOptional.isPresent()) {
+            var entity = entityOptional.get();
+            if (entity.getQuantity() < unit.getQuantity()) {
+                throw new InventoryException("Insufficient inventory to fulfill the requested quantity.");
+            }
+
+            return InventoryUnit.newBuilder()
+                    .setName(entity.getName())
+                    .setType(entity.getInventoryType())
+                    .setPrice(entity.getPrice())
+                    .setQuantity(entity.getQuantity())
+                    .build();
+        }
+        return null;
     }
 
     @Transactional

@@ -6,7 +6,11 @@ option java_package = "ee.aleksale.inventory.proto.v1";
 import "response-common.proto";
 import "inventory-common.proto";
 
-service InventoryService {
+service InventoryManagementService {
   rpc addInventoryUnit(stream InventoryUnit) returns (stream CommerceResponse);
   rpc removeInventoryUnit(stream InventoryUnit) returns (stream CommerceResponse);
+}
+
+service InventoryAvailabilityService {
+  rpc checkAvailability(InventoryOrder) returns (CommerceResponse);
 }

@@ -5,10 +5,11 @@ import ee.aleksale.client.interceptors.IdentificationHeaderInterceptor;
 import ee.aleksale.client.proto.v1.ClientServiceGrpc;
 import ee.aleksale.client.service.ClientService;
 import ee.aleksale.common.client.proto.v1.Client;
-import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
+import ee.aleksale.common.inventory.proto.v1.InventoryOrder;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.response.proto.v1.ErrorResponse;
 import ee.aleksale.common.response.proto.v1.SuccessResponse;
+import ee.aleksale.order.proto.v1.OrderServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.grpc.server.service.GrpcService;
 public class ClientGrpcService extends ClientServiceGrpc.ClientServiceImplBase {
 
     private final ClientService clientService;
+    private final OrderServiceGrpc.OrderServiceStub orderServiceStub;
 
     @Override
     public void addMoney(Client request, StreamObserver<CommerceResponse> responseObserver) {
@@ -45,7 +47,7 @@ public class ClientGrpcService extends ClientServiceGrpc.ClientServiceImplBase {
     }
 
     @Override
-    public StreamObserver<InventoryUnit> makeOrder(StreamObserver<CommerceResponse> responseObserver) {
-        return super.makeOrder(responseObserver);
+    public StreamObserver<InventoryOrder> makeOrder(StreamObserver<CommerceResponse> responseObserver) {
+        return orderServiceStub.makeOrder(responseObserver);
     }
 }

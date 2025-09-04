@@ -8,3 +8,5 @@ spring:
       channels:
         payment:
           address: 0.0.0.0:9094
+        inventory:
+          address: 0.0.0.0:9091

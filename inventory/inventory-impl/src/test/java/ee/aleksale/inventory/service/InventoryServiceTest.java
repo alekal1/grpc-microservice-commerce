@@ -1,5 +1,6 @@
 package ee.aleksale.inventory.service;
 
+import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
 import ee.aleksale.inventory.model.domain.InventoryEntity;
@@ -46,13 +47,13 @@ class InventoryServiceTest {
     void saveInventory() {
         var request = InventoryUnit.newBuilder()
                 .setName("anyName")
-                .setType(InventoryUnit.InventoryType.HARDWARE)
+                .setType(InventoryType.HARDWARE)
                 .setPrice(1.0)
                 .setQuantity(1L)
                 .build();
         var inventoryUnitEntity = new InventoryEntity();
         inventoryUnitEntity.setName("anyName");
-        inventoryUnitEntity.setInventoryType(InventoryUnit.InventoryType.HARDWARE);
+        inventoryUnitEntity.setInventoryType(InventoryType.HARDWARE);
         inventoryUnitEntity.setPrice(1.0);
         inventoryUnitEntity.setQuantity(1L);
 
@@ -84,16 +85,14 @@ class InventoryServiceTest {
                 .when(inventoryValidator)
                 .validateRemoveInventory(optionalEntity, request);
 
-        assertThrows(InventoryException.class, () -> {
-            inventoryService.removeInventory(request);
-        });
+        assertThrows(InventoryException.class, () -> inventoryService.removeInventory(request));
     }
 
     @Test
     void removeInventory_delete() {
         var request = InventoryUnit.newBuilder()
                 .setName("anyName")
-                .setType(InventoryUnit.InventoryType.HARDWARE)
+                .setType(InventoryType.HARDWARE)
                 .setQuantity(1)
                 .build();
         var entity = new InventoryEntity();
@@ -114,7 +113,7 @@ class InventoryServiceTest {
     void removeInventory_update() {
         var request = InventoryUnit.newBuilder()
                 .setName("anyName")
-                .setType(InventoryUnit.InventoryType.HARDWARE)
+                .setType(InventoryType.HARDWARE)
                 .setQuantity(1)
                 .build();
         var entity = new InventoryEntity();

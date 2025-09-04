@@ -18,17 +18,17 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-class InventoryGrpcServiceTest {
+class InventoryManagementGrpcServiceTest {
 
     private InventoryService inventoryService;
 
-    private InventoryGrpcService inventoryGrpcService;
+    private InventoryManagementGrpcService inventoryManagementGrpcService;
 
     @BeforeEach
     void init() {
         inventoryService = mock(InventoryService.class);
 
-        inventoryGrpcService = new InventoryGrpcService(
+        inventoryManagementGrpcService = new InventoryManagementGrpcService(
                 inventoryService
         );
     }
@@ -36,7 +36,7 @@ class InventoryGrpcServiceTest {
     @Test
     void addInventoryUnit_success() {
         var responseObserver = StreamRecorder.<CommerceResponse>create();
-        var requestObserver = inventoryGrpcService.addInventoryUnit(responseObserver);
+        var requestObserver = inventoryManagementGrpcService.addInventoryUnit(responseObserver);
 
         var unit = InventoryUnit.getDefaultInstance();
         doReturn(unit)
@@ -58,7 +58,7 @@ class InventoryGrpcServiceTest {
     @Test
     void addInventory_error() {
         var responseObserver = StreamRecorder.<CommerceResponse>create();
-        var requestObserver = inventoryGrpcService.addInventoryUnit(responseObserver);
+        var requestObserver = inventoryManagementGrpcService.addInventoryUnit(responseObserver);
 
         var unit = InventoryUnit.getDefaultInstance();
         doThrow(new InventoryException("error from service"))
@@ -81,7 +81,7 @@ class InventoryGrpcServiceTest {
     @Test
     void removeInventory_success() {
         var responseObserver = StreamRecorder.<CommerceResponse>create();
-        var requestObserver = inventoryGrpcService.removeInventoryUnit(responseObserver);
+        var requestObserver = inventoryManagementGrpcService.removeInventoryUnit(responseObserver);
 
         var unit = InventoryUnit.getDefaultInstance();
 
@@ -99,7 +99,7 @@ class InventoryGrpcServiceTest {
     @Test
     void removeInventory_error() {
         var responseObserver = StreamRecorder.<CommerceResponse>create();
-        var requestObserver = inventoryGrpcService.removeInventoryUnit(responseObserver);
+        var requestObserver = inventoryManagementGrpcService.removeInventoryUnit(responseObserver);
 
         var unit = InventoryUnit.getDefaultInstance();
         doThrow(new InventoryException("error from service"))
