@@ -1,7 +1,6 @@
 package ee.aleksale.orderimpl.service;
 
 import ee.aleksale.common.inventory.proto.v1.InventoryOrder;
-import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import ee.aleksale.common.payment.proto.v1.Payment;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.inventory.proto.v1.InventoryAvailabilityServiceGrpc;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
-import java.util.HashMap;
 
 @Slf4j
 @GrpcService
@@ -24,19 +22,17 @@ public class OrderGrpcService extends OrderServiceGrpc.OrderServiceImplBase {
 
     @Override
     public StreamObserver<InventoryOrder> makeOrder(StreamObserver<CommerceResponse> responseObserver) {
-        var currentOrders = new HashMap<String, Long>();
-
         return new StreamObserver<>() {
+
+            private final CurrentOrderService currentOrderService = new CurrentOrderService();
+
             @Override
             public void onNext(InventoryOrder inventoryOrder) {
-                var key = String.format("%s_%s", inventoryOrder.getName(), inventoryOrder.getType());
-                var totalQuantity = currentOrders.getOrDefault(key, 0L) + inventoryOrder.getQuantity();
-
                 var availabilityResponse = inventoryAvailabilityServiceBlockingStub.checkAvailability(
                         InventoryOrder.newBuilder()
                                 .setName(inventoryOrder.getName())
                                 .setType(inventoryOrder.getType())
-                                .setQuantity(totalQuantity)
+                                .setQuantity(currentOrderService.getTotalQuantity(inventoryOrder))
                                 .build()
                 );
 
@@ -45,7 +41,7 @@ public class OrderGrpcService extends OrderServiceGrpc.OrderServiceImplBase {
                     responseObserver.onCompleted();
                 }
 
-                currentOrders.put(key, totalQuantity);
+                currentOrderService.add(inventoryOrder);
             }
 
             @Override
@@ -56,17 +52,11 @@ public class OrderGrpcService extends OrderServiceGrpc.OrderServiceImplBase {
             @Override
             public void onCompleted() {
                 var paymentBuilder = Payment.newBuilder();
-                currentOrders.entrySet().stream()
-                                .map(entry -> {
-                                    var split = entry.getKey().split("_");
-                                    return InventoryOrder.newBuilder()
-                                            .setName(split[0])
-                                            .setType(InventoryType.valueOf(split[1]))
-                                            .setQuantity(entry.getValue());
-                                })
-                                .forEach(paymentBuilder::addInventoryOrders);
+                paymentBuilder.addAllInventoryOrders(currentOrderService.collectOrderWithTotalQuantity());
 
                 paymentServiceStub.processPayment(paymentBuilder.build(), responseObserver);
+
+                currentOrderService.clear();
             }
         };
     }
