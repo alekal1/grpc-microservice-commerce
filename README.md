@@ -1,24 +1,34 @@
-## WIP: gRPC Microservices with Spring Boot
+## WIP: gRPC Microservice Commerce Platform
 
 
-A multi-service application where services communicate using gRPC.
+A modular commerce platform built with Spring Boot,
+gRPC and Protocol Buffers
 
-Services:
-1. Management
-2. Inventory
-3. Client
-4. Order
-5. Payment
 
-## Getting started
+## System Architecture
 
-1. Build the project `mvn clean install`
-2. Run docker compose with env variable.
+The system is composed of five core microservices:
 
-Windows example `set MANAGEMENT_SYSTEM_TOKEN=dev && docker compose up --build -d`
+* Management - Administrative and onboarding operations.
+* Inventory - Stock levels and item availability.
+* Client - Order start and top-up balance
+* Order - Coordinates multi-step order workflow
+* Payment - Processes and validates payments.
 
-## Work flow
+#### Helper modules
 
+1. common-proto - For storing common proto files, that are in use across all application
+2. coverage-report - One file module that collect test code coverage
+
+## Module Structure
+Each module consist of two sub-modules:
+
+* The gRPC API definitions (-api suffix)
+* The service implementation (-impl suffix)
+
+## Service communication
+
+#### Administrative flow
 ```mermaid
 flowchart TD
     Management[Management]
@@ -29,6 +39,7 @@ flowchart TD
     Management -->|Adds| Inventory
 ```
 
+#### Order Processing flow
 ```mermaid
 flowchart TD
     Client[Client]
@@ -46,4 +57,21 @@ flowchart TD
     Order -->|6. Respond to| Client
 
     Order -.->|No stock or insufficient money| Client
+```
+
+## Getting started
+
+### Prerequisites
+* Java 17
+* Maven
+* Docker + Docker compose
+
+### Build the project 
+```aiignore
+mvn clean install
+```
+
+### Run the System
+```aiignore
+set MANAGEMENT_SYSTEM_TOKEN=dev && docker compose up --build -d
 ```

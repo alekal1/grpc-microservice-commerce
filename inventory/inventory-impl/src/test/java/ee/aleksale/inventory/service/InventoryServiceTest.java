@@ -1,5 +1,6 @@
 package ee.aleksale.inventory.service;
 
+import ee.aleksale.common.inventory.proto.v1.InventoryOrder;
 import ee.aleksale.common.inventory.proto.v1.InventoryType;
 import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.inventory.exception.InventoryException;
@@ -15,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -128,5 +131,64 @@ class InventoryServiceTest {
 
         verify(inventoryRepository, times(0)).deleteById(entity.getId());
         verify(inventoryRepository).updateQuantity(entity.getId(), entity.getQuantity() - request.getQuantity());
+    }
+
+    @Test
+    void getInventory_notPresent() {
+        var request = InventoryOrder.getDefaultInstance();
+
+        doReturn(Optional.empty())
+                .when(inventoryRepository)
+                .findByNameAndInventoryType(request.getName(), request.getType());
+
+        var response = inventoryService.getInventory(request);
+
+        assertNull(response);
+    }
+
+    @Test
+    void getInventory_insufficientQuantity() {
+        var request = InventoryOrder.newBuilder()
+                .setName("anyName")
+                .setType(InventoryType.HARDWARE)
+                .setQuantity(2L)
+                .build();
+
+        var entity = new InventoryEntity();
+        entity.setQuantity(1L);
+
+        doReturn(Optional.of(entity))
+                .when(inventoryRepository)
+                .findByNameAndInventoryType(request.getName(), request.getType());
+
+        assertThrows(InventoryException.class, () ->
+                inventoryService.getInventory(request)
+        );
+    }
+
+    @Test
+    void getInventory() {
+        var request = InventoryOrder.newBuilder()
+                .setName("anyName")
+                .setType(InventoryType.HARDWARE)
+                .setQuantity(1L)
+                .build();
+        var entity = new InventoryEntity();
+        entity.setName("anyName");
+        entity.setInventoryType(InventoryType.HARDWARE);
+        entity.setPrice(10.0);
+        entity.setQuantity(2L);
+
+        doReturn(Optional.of(entity))
+                .when(inventoryRepository)
+                .findByNameAndInventoryType(request.getName(), request.getType());
+
+        var response = inventoryService.getInventory(request);
+
+        assertNotNull(response);
+        assertEquals(entity.getName(), response.getName());
+        assertEquals(entity.getInventoryType(), response.getType());
+        assertEquals(entity.getPrice(), response.getPrice());
+        assertEquals(entity.getQuantity(), response.getQuantity());
     }
 }

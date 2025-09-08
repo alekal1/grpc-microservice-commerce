@@ -32,6 +32,7 @@ public class ClientManagementGrpcService extends ClientRegistrationServiceGrpc.C
                             .build())
                     .build());
             responseObserver.onCompleted();
+            return;
         }
 
         var savedClient = clientService.saveClient(request);
