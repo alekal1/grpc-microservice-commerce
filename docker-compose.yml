@@ -83,6 +83,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-client:5432/clientdb
       SPRING_DATASOURCE_USERNAME: client
       SPRING_DATASOURCE_PASSWORD: client
+      SPRING_GRPC_CLIENT_CHANNELS_ORDER_ADDRESS: order-service:9093
     ports:
       - "9092:9092"
     depends_on:
@@ -90,4 +91,28 @@ services:
         condition: service_healthy
     networks:
       - app-net
+
+  order-service:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    container_name: order-service
+    environment:
+      SPRING_GRPC_CLIENT_CHANNELS_PAYMENT_ADDRESS: payment-service:9094
+      SPRING_GRPC_CLIENT_CHANNELS_INVENTORY_ADDRESS: inventory-service:9091
+    ports:
+      - "9093:9093"
+    networks:
+      - app-net
+
+  payment-service:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    container_name: payment-service
+    ports:
+      - "9094:9094"
+    networks:
+      - app-net
+
 

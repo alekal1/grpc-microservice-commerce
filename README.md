@@ -73,5 +73,5 @@ mvn clean install
 
 ### Run the System
 ```aiignore
-set MANAGEMENT_SYSTEM_TOKEN=dev && docker compose up --build -d
+docker compose --env-file .env.dev up --build -d
 ```
