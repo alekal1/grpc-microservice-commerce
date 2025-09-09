@@ -27,6 +27,23 @@ Each module consist of two sub-modules:
 * The gRPC API definitions (-api suffix)
 * The service implementation (-impl suffix)
 
+## Security & Authentification
+
+* Each service communicates using **secret credentials** embedded in a 
+base64-encoded metadata header.
+
+* For example:
+  1. When the **management module** makes an inventory request, it includes secret credentials in the request header.
+  2. The **inventory module** verifies these credentials to confirm the request originated from the management module 
+  before processing it.
+
+* Additionally, when the **client module** makes a request, there is an interceptor that validates a UUID included in the request against a database to ensure the request’s authenticity.
+
+
+This lightweight authentication strategy provides a straightforward way to secure inter-service communication without the complexity of mTLS.
+
+For more detailed information, please refer to the `.env.dev` file and the `credentials-api` module.
+
 ## Service communication
 
 #### Administrative flow
