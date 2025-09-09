@@ -1,29 +1,21 @@
-package ee.aleksale.inventory.config;
+package ee.aleksale.paymentimpl.config;
 
 import ee.aleksale.credentials.CommerceSecretCallInterceptor;
-import io.grpc.ServerInterceptor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Getter
 @Setter
 @Configuration
 @ConfigurationProperties("credentials")
-public class InventoryConfig {
-    private String managementSystemSecret;
+public class PaymentConfig {
     private String orderSystemSecret;
 
-    @Bean(name = "commerceSecretManagementCallInterceptor")
-    public ServerInterceptor commerceSecretManagementCallInterceptor() {
-        return new CommerceSecretCallInterceptor(managementSystemSecret);
-    }
-
-    @Bean(name = "commerceSecretOrderCallInterceptor")
-    public ServerInterceptor commerceSecretOrderCallInterceptor() {
+    @Bean
+    public CommerceSecretCallInterceptor commerceSecretCallInterceptor() {
         return new CommerceSecretCallInterceptor(orderSystemSecret);
     }
 }

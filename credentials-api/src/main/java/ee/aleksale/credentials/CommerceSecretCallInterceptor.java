@@ -1,25 +1,16 @@
-package ee.aleksale.inventory.interceptors;
+package ee.aleksale.credentials;
 
-import ee.aleksale.inventory.config.InventoryConfig;
 import io.grpc.ForwardingServerCallListener;
 import io.grpc.Metadata;
 import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-@Slf4j
-@Component
-@RequiredArgsConstructor
-public class ManagementSecretInterceptor implements ServerInterceptor {
-
-    private final InventoryConfig inventoryConfig;
+public record CommerceSecretCallInterceptor(String systemSecret) implements ServerInterceptor {
 
     private static final Metadata.Key<byte[]> SYSTEM_KEY =
             Metadata.Key.of("system-bin", Metadata.BINARY_BYTE_MARSHALLER);
@@ -33,7 +24,8 @@ public class ManagementSecretInterceptor implements ServerInterceptor {
         }
         var delegate = next.startCall(call, metadata);
 
-        return new ForwardingServerCallListener.SimpleForwardingServerCallListener<>(delegate) {};
+        return new ForwardingServerCallListener.SimpleForwardingServerCallListener<>(delegate) {
+        };
     }
 
     private boolean isValidSystem(Metadata metadata) {
@@ -45,7 +37,7 @@ public class ManagementSecretInterceptor implements ServerInterceptor {
         var decoded = Base64.getDecoder().decode(value);
         var systemValue = new String(decoded, StandardCharsets.UTF_8);
 
-        return systemValue.equals(inventoryConfig.getManagementSystemSecret());
+        return systemValue.equals(this.systemSecret);
     }
 
     private static <ReqT, RespT> ServerCall.Listener<ReqT> handleInvalidSystemKey(ServerCall<ReqT, RespT> serverCall) {

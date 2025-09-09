@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService
+@GrpcService(interceptorNames = "commerceSecretOrderCallInterceptor")
 @RequiredArgsConstructor
 public class InventoryAvailabilityGrpcService
         extends InventoryAvailabilityServiceGrpc.InventoryAvailabilityServiceImplBase {

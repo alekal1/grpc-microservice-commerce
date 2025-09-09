@@ -13,6 +13,7 @@
         <module>order</module>
         <module>payment</module>
         <module>coverage-report</module>
+        <module>credentials-api</module>
     </modules>
     <properties>
         <java.version>17</java.version>

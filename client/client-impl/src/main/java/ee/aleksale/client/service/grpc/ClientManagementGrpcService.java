@@ -8,13 +8,14 @@ import ee.aleksale.common.client.proto.v1.Client;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.response.proto.v1.ErrorResponse;
 import ee.aleksale.common.response.proto.v1.SuccessResponse;
+import ee.aleksale.credentials.CommerceSecretCallInterceptor;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService(interceptors = ManagementSecretInterceptor.class)
+@GrpcService(interceptors = CommerceSecretCallInterceptor.class)
 @RequiredArgsConstructor
 public class ClientManagementGrpcService extends ClientRegistrationServiceGrpc.ClientRegistrationServiceImplBase {
 

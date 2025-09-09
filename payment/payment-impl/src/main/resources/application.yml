@@ -4,3 +4,5 @@ spring:
   grpc:
     server:
       port: 9094
+credentials:
+  order-system-secret: ${ORDER_SYSTEM_TOKEN}

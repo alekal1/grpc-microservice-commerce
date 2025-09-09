@@ -19,6 +19,7 @@ The system is composed of five core microservices:
 
 1. common-proto - For storing common proto files, that are in use across all application
 2. coverage-report - One file module that collect test code coverage
+3. credentials-api - For providing credential support for other modules
 
 ## Module Structure
 Each module consist of two sub-modules:

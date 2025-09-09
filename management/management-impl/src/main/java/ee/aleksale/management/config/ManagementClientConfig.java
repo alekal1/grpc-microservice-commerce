@@ -1,19 +1,21 @@
 package ee.aleksale.management.config;
 
 import ee.aleksale.client.proto.v1.ClientRegistrationServiceGrpc;
+import ee.aleksale.credentials.CommerceSecretCallCredentials;
 import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
-import ee.aleksale.management.credentials.SecretCallCredentials;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.grpc.client.GrpcChannelFactory;
 
 @Configuration
+@RequiredArgsConstructor
 public class ManagementClientConfig {
 
     @Bean
     public InventoryManagementServiceGrpc.InventoryManagementServiceStub inventoryServiceStub(
             GrpcChannelFactory channels,
-            SecretCallCredentials secretCallCredentials) {
+            CommerceSecretCallCredentials secretCallCredentials) {
         return InventoryManagementServiceGrpc.newStub(channels.createChannel("inventory"))
                 .withCallCredentials(secretCallCredentials);
     }
@@ -21,7 +23,7 @@ public class ManagementClientConfig {
     @Bean
     public ClientRegistrationServiceGrpc.ClientRegistrationServiceBlockingStub clientManagementBlockingStub(
             GrpcChannelFactory channels,
-            SecretCallCredentials secretCallCredentials) {
+            CommerceSecretCallCredentials secretCallCredentials) {
         return ClientRegistrationServiceGrpc.newBlockingStub(channels.createChannel("client"))
                 .withCallCredentials(secretCallCredentials);
     }

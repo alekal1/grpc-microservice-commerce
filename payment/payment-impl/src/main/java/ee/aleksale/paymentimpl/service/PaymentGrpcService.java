@@ -2,6 +2,7 @@ package ee.aleksale.paymentimpl.service;
 
 import ee.aleksale.common.payment.proto.v1.Payment;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
+import ee.aleksale.credentials.CommerceSecretCallInterceptor;
 import ee.aleksale.payment.proto.v1.PaymentServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService
+@GrpcService(interceptors = CommerceSecretCallInterceptor.class)
 @RequiredArgsConstructor
 public class PaymentGrpcService extends PaymentServiceGrpc.PaymentServiceImplBase {
 

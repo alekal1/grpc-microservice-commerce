@@ -20,3 +20,4 @@ spring:
 
 credentials:
   management-system-secret: ${MANAGEMENT_SYSTEM_TOKEN}
+  order-system-secret: ${ORDER_SYSTEM_TOKEN}

@@ -1,12 +1,11 @@
 package ee.aleksale.inventory.service.grpc;
 
 import com.google.protobuf.Any;
+import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.common.response.proto.v1.CommerceResponse;
 import ee.aleksale.common.response.proto.v1.ErrorResponse;
-import ee.aleksale.common.inventory.proto.v1.InventoryUnit;
 import ee.aleksale.common.response.proto.v1.SuccessResponse;
 import ee.aleksale.inventory.exception.InventoryException;
-import ee.aleksale.inventory.interceptors.ManagementSecretInterceptor;
 import ee.aleksale.inventory.proto.v1.InventoryManagementServiceGrpc;
 import ee.aleksale.inventory.service.InventoryService;
 import io.grpc.stub.StreamObserver;
@@ -15,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.grpc.server.service.GrpcService;
 
 @Slf4j
-@GrpcService(interceptors = ManagementSecretInterceptor.class)
+@GrpcService(interceptorNames = "commerceSecretManagementCallInterceptor")
 @RequiredArgsConstructor
 public class InventoryManagementGrpcService extends InventoryManagementServiceGrpc.InventoryManagementServiceImplBase {
 

@@ -24,3 +24,4 @@ spring:
 
 credentials:
   management-system-secret: ${MANAGEMENT_SYSTEM_TOKEN}
+  client-system-secret: ${CLIENT_SYSTEM_TOKEN}
