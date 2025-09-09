@@ -10,8 +10,8 @@ import org.springframework.grpc.client.GrpcChannelFactory;
 public class OrderClientConfig {
 
     @Bean
-    PaymentServiceGrpc.PaymentServiceStub paymentServiceBlockingStub(GrpcChannelFactory channels) {
-        return PaymentServiceGrpc.newStub(channels.createChannel("payment"));
+    PaymentServiceGrpc.PaymentServiceFutureStub paymentServiceFutureStub(GrpcChannelFactory channels) {
+        return PaymentServiceGrpc.newFutureStub(channels.createChannel("payment"));
     }
 
     @Bean

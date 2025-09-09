@@ -8,4 +8,5 @@ import "inventory-common.proto";
 message Payment {
   string identificationCode = 1;
   repeated InventoryOrder inventoryOrders = 2;
+  double totalSum = 3;
 }
