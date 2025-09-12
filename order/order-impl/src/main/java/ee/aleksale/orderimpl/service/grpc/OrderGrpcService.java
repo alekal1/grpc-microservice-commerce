@@ -8,6 +8,7 @@ import ee.aleksale.common.response.proto.v1.SuccessResponse;
 import ee.aleksale.credentials.CommerceSecretCallInterceptor;
 import ee.aleksale.order.proto.v1.OrderServiceGrpc;
 import ee.aleksale.orderimpl.exception.OrderException;
+import ee.aleksale.orderimpl.interceptors.service.RetrieveIdentificationInterceptor;
 import ee.aleksale.orderimpl.service.CurrentOrderUtils;
 import ee.aleksale.orderimpl.service.OrderService;
 import io.grpc.stub.StreamObserver;
@@ -17,7 +18,10 @@ import org.springframework.grpc.server.service.GrpcService;
 
 
 @Slf4j
-@GrpcService(interceptors = CommerceSecretCallInterceptor.class)
+@GrpcService(interceptors = {
+        CommerceSecretCallInterceptor.class,
+        RetrieveIdentificationInterceptor.class
+})
 @RequiredArgsConstructor
 public class OrderGrpcService extends OrderServiceGrpc.OrderServiceImplBase {
 

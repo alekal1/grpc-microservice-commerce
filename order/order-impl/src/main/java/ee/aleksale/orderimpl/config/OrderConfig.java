@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "credentials")
 public class OrderConfig {
     private String orderSystemSecret;
-    private String clientSystemToken;
+    private String clientSystemSecret;
 
     @Bean
     public CommerceSecretCallCredentials secretCallCredentials() {
@@ -23,6 +23,6 @@ public class OrderConfig {
 
     @Bean
     public CommerceSecretCallInterceptor secretCallInterceptor() {
-        return new CommerceSecretCallInterceptor(clientSystemToken);
+        return new CommerceSecretCallInterceptor(clientSystemSecret);
     }
 }

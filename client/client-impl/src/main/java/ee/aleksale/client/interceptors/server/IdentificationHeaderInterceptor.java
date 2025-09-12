@@ -1,4 +1,4 @@
-package ee.aleksale.client.interceptors;
+package ee.aleksale.client.interceptors.server;
 
 import ee.aleksale.client.repository.ClientRepository;
 import io.grpc.Context;

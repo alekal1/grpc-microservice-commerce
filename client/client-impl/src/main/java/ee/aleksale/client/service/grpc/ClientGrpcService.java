@@ -1,7 +1,7 @@
 package ee.aleksale.client.service.grpc;
 
 import com.google.protobuf.Any;
-import ee.aleksale.client.interceptors.IdentificationHeaderInterceptor;
+import ee.aleksale.client.interceptors.server.IdentificationHeaderInterceptor;
 import ee.aleksale.client.proto.v1.ClientServiceGrpc;
 import ee.aleksale.client.service.ClientService;
 import ee.aleksale.common.client.proto.v1.Client;
