@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/alekal1/grpc-microservice-commerce)
+
 ## WIP: gRPC Microservice Commerce Platform
 
 
